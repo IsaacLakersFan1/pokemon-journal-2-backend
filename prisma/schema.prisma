@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db" // SQLite database file
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  email    String   @unique
+  password String
+  players  Player[]
+  games    Game[]
+}
+
+
+model Game {
+  id          Int          @id @default(autoincrement())
+  name        String
+  userId      Int
+  playerCount Int
+  user        User         @relation(fields: [userId], references: [id])
+  playerGames PlayerGame[]
+  events      Event[]
+}
+
+model PlayerGame {
+  id       Int     @id @default(autoincrement())
+  playerId Int
+  gameId   Int
+  player   Player  @relation(fields: [playerId], references: [id])
+  game     Game    @relation(fields: [gameId], references: [id])
+
+  @@unique([playerId, gameId]) // Ensures no duplicate entries of the same player in the same game
+}
+
+model Player {
+  id          Int          @id @default(autoincrement())
+  name        String
+  pokemonId   Int?         @unique // Make pokemonId unique
+  userId      Int
+  user        User         @relation(fields: [userId], references: [id])
+  playerGames PlayerGame[]
+  events      Event[]      // Back-reference to Event model
+  pokemon     Pokemon?     @relation(fields: [pokemonId], references: [id]) // Relation to Pokemon
+}
+
+model Pokemon {
+  id             Int      @id @default(autoincrement())
+  nationalDex    Int
+  name           String
+  form           String? // Optional for different forms like Alolan
+  type1          String
+  type2          String?
+  total          Int
+  hp             Int
+  attack         Int
+  defense        Int
+  specialAttack  Int
+  specialDefense Int
+  speed          Int
+  generation     Int
+  image          String? // URL for the Pokémon image
+  shinyImage     String? // URL for the shiny version image
+  events         Event[] // Relations to the Event model
+  player         Player?  @relation // Back-reference to Player model
+}
+
+
+model Event {
+  id        Int      @id @default(autoincrement())
+  pokemonId Int?
+  route     String
+  nickname  String?
+  status    String?
+  isShiny   Int      @default(0) // Default value set to 0
+  isChamp   Int      @default(0) // Default value set to 0
+  gameId    Int
+  playerId  Int      // Field for Player relation
+  game      Game     @relation(fields: [gameId], references: [id])
+  player    Player   @relation(fields: [playerId], references: [id]) // Relation to Player
+  pokemon   Pokemon? @relation(fields: [pokemonId], references: [id])
+}
