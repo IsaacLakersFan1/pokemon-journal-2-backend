@@ -180,11 +180,15 @@ const getTrainerStats = async (req, res) => {
 exports.getTrainerStats = getTrainerStats;
 // Trainer Stats by Pokémon
 const getPokemonsStats = async (req, res) => {
+    const playerId = parseInt(req.params.playerId); // Get playerId from URL parameter
     try {
-        // Fetch all Pokémon with their events (and shiny status) from the database
+        // Fetch all Pokémon with their events (and shiny status) for the given playerId
         const pokemons = await prismaClient_1.default.pokemon.findMany({
             include: {
                 events: {
+                    where: {
+                        playerId: playerId, // Only include events for the given playerId
+                    },
                     select: {
                         isShiny: true, // Select shiny status
                     },

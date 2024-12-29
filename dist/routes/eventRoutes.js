@@ -15,5 +15,7 @@ router.get('/events/game/:gameId', authMiddleware_1.authenticateJWT, eventContro
 // Update event status
 router.patch('/event/:eventId/status', authMiddleware_1.authenticateJWT, eventController_1.updateEventStatus);
 // PUT route for updating isShiny and isChamp
-router.put('/events/:eventId/attributes', eventController_1.updateEventAttributes);
+router.put('/events/:eventId/attributes', authMiddleware_1.authenticateJWT, eventController_1.updateEventAttributes);
+// PUT route for updating isShiny and isChamp
+router.delete('/:eventId/', authMiddleware_1.authenticateJWT, eventController_1.deleteEvent);
 exports.default = router;

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateEventAttributes = exports.updateEventStatus = exports.getEventsByGameId = exports.getAllEvents = exports.searchPokemon = exports.createEvent = void 0;
+exports.deleteEvent = exports.updateEventAttributes = exports.updateEventStatus = exports.getEventsByGameId = exports.getAllEvents = exports.searchPokemon = exports.createEvent = void 0;
 const prismaClient_1 = __importDefault(require("../prismaClient"));
 // Create a new event (register a Pokémon event)
 const createEvent = async (req, res) => {
@@ -154,3 +154,27 @@ const updateEventAttributes = async (req, res) => {
     }
 };
 exports.updateEventAttributes = updateEventAttributes;
+// Delete Event by ID
+const deleteEvent = async (req, res) => {
+    const { eventId } = req.params; // Extract eventId from URL parameter
+    try {
+        // Find the event to ensure it exists
+        const event = await prismaClient_1.default.event.findUnique({
+            where: { id: parseInt(eventId) },
+        });
+        if (!event) {
+            res.status(404).json({ message: 'Event not found.' });
+            return;
+        }
+        // Delete the event
+        await prismaClient_1.default.event.delete({
+            where: { id: parseInt(eventId) },
+        });
+        res.status(200).json({ message: 'Event successfully deleted.' });
+    }
+    catch (error) {
+        console.error('Error deleting event:', error);
+        res.status(500).json({ message: 'An error occurred while deleting the event.' });
+    }
+};
+exports.deleteEvent = deleteEvent;
