@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors(
   {
 //   origin: 'http://localhost:3000',  // Frontend's IP or domain
-  origin: 'http://ro484kgsg08o8k84co8soggw.193.46.198.43.sslip.io/',  // Frontend's IP or domain
+  origin: 'http://goc4840sk8cc4cws448osgoo.193.46.198.43.sslip.io/',  // Frontend's IP or domain
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify methods if needed
   allowedHeaders: ['Content-Type', 'Authorization']  // Allow specific headers
 }
