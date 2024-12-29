@@ -16,14 +16,15 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors({
+app.use(cors(
+  {
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
 
     const allowedOrigins = [
       'http://localhost:3000',  // Local development
-      'http://goc4840sk8cc4cws448osgoo.193.46.198.43.sslip.io', // Deployed frontend
+      'http://i80woc0gwk8owosog8w800w4.193.46.198.43.sslip.io/', // Deployed frontend
     ];
 
     if (allowedOrigins.includes(origin)) {
@@ -34,7 +35,8 @@ app.use(cors({
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
-}));
+}
+));
 
 
 app.use(bodyParser.json());
