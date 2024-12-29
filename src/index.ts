@@ -18,12 +18,12 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors(
-  {
-//   origin: 'http://localhost:3000',  // Frontend's IP or domain
-  origin: 'http://i80woc0gwk8owosog8w800w4.193.46.198.43.sslip.io/',  // Frontend's IP or domain
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify methods if needed
-  allowedHeaders: ['Content-Type', 'Authorization']  // Allow specific headers
-}
+//   {
+// //   origin: 'http://localhost:3000',  // Frontend's IP or domain
+//   origin: 'http://i80woc0gwk8owosog8w800w4.193.46.198.43.sslip.io/',  // Frontend's IP or domain
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify methods if needed
+//   allowedHeaders: ['Content-Type', 'Authorization']  // Allow specific headers
+// }
 ));
 
 app.use(bodyParser.json());
