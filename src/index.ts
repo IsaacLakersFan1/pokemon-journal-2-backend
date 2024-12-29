@@ -16,28 +16,15 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware
 app.use(cors(
   {
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-
-    const allowedOrigins = [
-      'http://localhost:3000',  // Local development
-      'http://i80woc0gwk8owosog8w800w4.193.46.198.43.sslip.io/', // Deployed frontend
-    ];
-
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+//   origin: 'http://localhost:3000',  // Frontend's IP or domain
+  origin: 'http://i80woc0gwk8owosog8w800w4.193.46.198.43.sslip.io/',  // Frontend's IP or domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify methods if needed
+  allowedHeaders: ['Content-Type', 'Authorization']  // Allow specific headers
 }
 ));
-
 
 app.use(bodyParser.json());
 
